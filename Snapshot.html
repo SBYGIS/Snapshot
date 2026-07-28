@@ -7,10 +7,9 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Montserrat, Arial, sans-serif; color: #2f3b45; background: #fff; padding: 24px; max-width: 620px; margin: 0 auto; font-size: 13px; line-height: 1.5; }
-  .header { background: #004676; color: white; padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: center; }
-  .header-inner { display: flex; align-items: center; gap: 14px; }
-  .header img { height: 44px; width: auto; flex-shrink: 0; }
-  .header-text { text-align: left; }
+  .header { background: #004676; color: white; padding: 16px 24px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .header img { height: 64px; width: auto; flex-shrink: 0; }
+  .header-text { text-align: right; }
   .header-text h1 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
   .header-text p { font-size: 12px; opacity: 0.85; }
   .status-bar { background: #f0f6fb; border: 1px solid #d0e4f0; border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; font-size: 12px; color: #4a5560; text-align: center; }
@@ -40,12 +39,10 @@
 <body>
 
 <div class="header">
-  <div class="header-inner">
-    <img src="https://salisbury.maps.arcgis.com/sharing/rest/content/items/59b2560e17674e639d30e45e157529cf/data" alt="Salisbury Snapshot logo">
-    <div class="header-text">
-      <h1 id="address-title">Address Snapshot</h1>
-      <p>City of Salisbury · Generated <span id="date"></span></p>
-    </div>
+  <img src="https://salisbury.maps.arcgis.com/sharing/rest/content/items/59b2560e17674e639d30e45e157529cf/data" alt="Salisbury Snapshot logo">
+  <div class="header-text">
+    <h1 id="address-title">Address Snapshot</h1>
+    <p>City of Salisbury · Generated <span id="date"></span></p>
   </div>
 </div>
 
