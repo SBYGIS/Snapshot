@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Address Snapshot</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DYX7KWYE0R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DYX7KWYE0R');
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Montserrat, Arial, sans-serif; color: #2f3b45; background: #fff; padding: 24px; max-width: 620px; margin: 0 auto; font-size: 13px; line-height: 1.5; }
@@ -186,13 +194,25 @@ document.getElementById('councildistrict').textContent = p('councildistrict');
   else { entEl.style.color = '#888'; }
 
   var hist = p('historic');
+  if (hist === '' || hist === null || typeof hist === 'undefined') { hist = 'No'; }
   var histEl = document.getElementById('historic');
   histEl.textContent = hist;
   if (hist !== 'No' && hist !== '') { histEl.style.color = '#004676'; histEl.style.fontWeight = '700'; }
   else { histEl.style.color = '#888'; }
 
+  // GA4 event: fire once the snapshot has rendered for a valid city address
+  gtag('event', 'snapshot_search', {
+    'address': addr || '(unknown)',
+    'zip_code': p('zip') || '(unknown)'
+  });
+
 } else {
   document.getElementById('not-city-msg').style.display = 'block';
+
+  // GA4 event: address searched but outside city limits
+  gtag('event', 'snapshot_search_not_in_city', {
+    'address': p('addr') || '(unknown)'
+  });
 }
 </script>
 </body>
