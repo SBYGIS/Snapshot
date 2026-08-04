@@ -127,7 +127,63 @@
       max-width: none;
     }
   }
+  @media (max-width: 400px) {
+    .blue-box {
+      padding: 12px 12px 14px;
+    }
+    .logo-img {
+      height: 48px;
+    }
+    input[type="text"] {
+      font-size: 13px;
+    }
+    .footnote {
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 320px) {
+    .logo-img {
+      height: 40px;
+    }
+    .search-input-row {
+      height: 38px;
+    }
+  }
+  /* JS-driven fallback: matches the same 640px/400px thresholds as the media
+     queries above, but reads the iframe's actual rendered width directly via
+     window.innerWidth. This covers cases where the host page embeds this
+     widget in an iframe that doesn't itself resize responsively — a plain
+     CSS media query only sees the iframe's own document width, so if the
+     iframe box is stuck at a fixed pixel width on mobile, the query above
+     never fires even though the visible page is a phone screen. */
+  .top-row.js-stacked {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+  .top-row.js-stacked .logo-img {
+    height: 60px !important;
+    margin: 0 auto !important;
+  }
+  .top-row.js-stacked .search-box {
+    max-width: none !important;
+  }
+  .top-row.js-stacked.js-compact .logo-img {
+    height: 48px !important;
+  }
 </style>
+<script>
+  function applyResponsiveStacking() {
+    var row = document.querySelector('.top-row');
+    if (!row) return;
+    var w = window.innerWidth;
+    row.classList.toggle('js-stacked', w <= 640);
+    row.classList.toggle('js-compact', w <= 400);
+  }
+  window.addEventListener('DOMContentLoaded', applyResponsiveStacking);
+  window.addEventListener('load', applyResponsiveStacking);
+  window.addEventListener('resize', applyResponsiveStacking);
+</script>
 </head>
 <body>
 
