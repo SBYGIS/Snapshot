@@ -175,16 +175,43 @@
   }
 </style>
 <script>
-  function applyResponsiveStacking() {
-    var row = document.querySelector('.top-row');
-    if (!row) return;
-    var w = window.innerWidth;
-    row.classList.toggle('js-stacked', w <= 640);
-    row.classList.toggle('js-compact', w <= 400);
-  }
-  window.addEventListener('DOMContentLoaded', applyResponsiveStacking);
-  window.addEventListener('load', applyResponsiveStacking);
-  window.addEventListener('resize', applyResponsiveStacking);
+  (function () {
+    function applyResponsiveStacking(width) {
+      var row = document.querySelector('.top-row');
+      if (!row) return;
+      row.classList.toggle('js-stacked', width <= 640);
+      row.classList.toggle('js-compact', width <= 400);
+    }
+
+    var container = document.querySelector('.search-wrap');
+    if (!container) return;
+
+    // Preferred: watch the widget's own rendered width directly.
+    // This is what actually works inside WordPress, whether the
+    // widget ends up inline in the page, inside an iframe, or
+    // inside a builder module that scales content — all of those
+    // report the true box width here, unlike window.innerWidth,
+    // which only reflects the browser tab's viewport and can stay
+    // "desktop-sized" even when the visible box is small.
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          applyResponsiveStacking(entries[i].contentRect.width);
+        }
+      });
+      ro.observe(container);
+    } else {
+      // Fallback for older browsers: poll the container's own
+      // offsetWidth instead of window.innerWidth, for the same reason.
+      function poll() {
+        applyResponsiveStacking(container.offsetWidth);
+      }
+      window.addEventListener('DOMContentLoaded', poll);
+      window.addEventListener('load', poll);
+      window.addEventListener('resize', poll);
+      setInterval(poll, 400);
+    }
+  })();
 </script>
 </head>
 <body>
